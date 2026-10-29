@@ -1,0 +1,29 @@
+FOTOS DO SITE
+=============
+
+ATENÇÃO: os 9 arquivos que estão aqui agora são fotos PROVISÓRIAS de banco de
+imagens (veja CREDITOS.txt). Troque pelas fotos reais do Guina antes de publicar.
+
+Cada moldura do site já está ligada a um arquivo desta pasta. Para trocar o
+espaço reservado por uma foto real, é só salvar a imagem aqui com o nome certo.
+Não precisa mexer no código.
+
+  hero.jpg       fundo do topo da página (horizontal, de preferência a barbearia
+                 do Guina; o site escurece a foto sozinho, então pode ser clara)
+
+  casa-01.jpg    seção "A casa", foto grande (vertical, 4:5)
+  casa-02.jpg    seção "A casa", foto pequena (quadrada)
+
+  corte-01.jpg   Degradê navalhado        (vertical, 4:5)
+  corte-02.jpg   Corte social             (quadrada)
+  corte-03.jpg   Barba                    (vertical, 3:4)
+  corte-04.jpg   Degradê + sobrancelha    (vertical, 3:4)
+  corte-05.jpg   Bigode                   (quadrada)
+  corte-06.jpg   Corte infantil           (vertical, 4:5)
+
+Dicas:
+- O site corta a imagem para caber (object-fit: cover), então o enquadramento
+  não precisa ser exato. Deixe o assunto principal no centro.
+- Largura de 1200 a 1600 px é suficiente (1920 px para o hero.jpg). Salve em JPG
+  com qualidade ~80.
+- Se quiser outro formato (png, webp), troque a extensão no index.html.

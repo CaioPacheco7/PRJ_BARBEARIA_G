@@ -1,0 +1,21 @@
+FOTOS PROVISÓRIAS (BANCO DE IMAGENS)
+====================================
+
+Estas 8 fotos são imagens de banco gratuito (Pexels) usadas só para a demonstração.
+NÃO são da barbearia do Guina nem de clientes dele. Antes de publicar de verdade,
+substitua todas por fotos reais (basta salvar o arquivo novo com o mesmo nome).
+
+Licença Pexels: uso gratuito, inclusive comercial, sem obrigação de crédito.
+https://www.pexels.com/license/
+(Mesmo assim, as pessoas que aparecem são modelos de banco de imagem; por isso a
+troca por fotos reais é recomendada no site final.)
+
+  hero.jpg      https://www.pexels.com/photo/interior-of-hairdresser-saloon-9146943/  (fundo do topo da página)
+  casa-01.jpg   https://www.pexels.com/photo/the-interior-of-a-barber-shop-7518728/
+  casa-02.jpg   https://www.pexels.com/photo/close-up-shot-of-barber-tools-13058740/
+  corte-01.jpg  https://www.pexels.com/photo/a-man-having-a-haircut-12304508/
+  corte-02.jpg  https://www.pexels.com/photo/person-using-hair-razor-on-man-s-hair-3356174/
+  corte-03.jpg  https://www.pexels.com/photo/photo-of-a-man-getting-his-beard-shaved-10024234/
+  corte-04.jpg  https://www.pexels.com/photo/man-taking-beard-shave-897262/
+  corte-05.jpg  https://www.pexels.com/photo/man-in-black-suit-holding-mans-face-3998421/
+  corte-06.jpg  https://www.pexels.com/photo/barber-sitting-by-little-boy-and-shaving-his-hair-19664875/  (Kawê Rodrigues)
