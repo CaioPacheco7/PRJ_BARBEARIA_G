@@ -1,8 +1,8 @@
 FOTOS DO SITE
 =============
 
-ATENÇÃO: os 9 arquivos que estão aqui agora são fotos PROVISÓRIAS de banco de
-imagens (veja CREDITOS.txt). Troque pelas fotos reais do Guina antes de publicar.
+ATENÇÃO: o hero.jpg é uma imagem gerada por IA (veja CREDITOS.txt). Todas as outras são fotos
+reais da barbearia. O ideal é trocar o hero por uma foto real larga antes de publicar.
 
 Cada moldura do site já está ligada a um arquivo desta pasta. Para trocar o
 espaço reservado por uma foto real, é só salvar a imagem aqui com o nome certo.
@@ -11,14 +11,14 @@ Não precisa mexer no código.
   hero.jpg       fundo do topo da página (horizontal, de preferência a barbearia
                  do Guina; o site escurece a foto sozinho, então pode ser clara)
 
-  casa-01.jpg    seção "A casa", foto grande (vertical, 4:5)
-  casa-02.jpg    seção "A casa", foto pequena (quadrada)
+  casa-01.jpg    seção "A casa", foto grande (vertical, 3:4)
+  casa-02.jpg    seção "A casa", foto pequena (quadrada; hoje a cadeira infantil)
 
   corte-01.jpg   Degradê navalhado        (vertical, 4:5)
   corte-02.jpg   Corte social             (quadrada)
   corte-03.jpg   Barba                    (vertical, 3:4)
-  corte-04.jpg   Degradê + sobrancelha    (vertical, 3:4)
-  corte-05.jpg   Bigode                   (quadrada)
+  corte-04.jpg   Degradê                  (vertical, 3:4)
+  corte-05.jpg   Sobrancelha             (quadrada)
   corte-06.jpg   Corte infantil           (vertical, 4:5)
 
 Dicas:
