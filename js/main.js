@@ -42,6 +42,17 @@
   document.querySelectorAll("#menu-mobile a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
   document.addEventListener("keydown", (e) => e.key === "Escape" && setMenu(false));
 
+  /* Logo: fecha o menu, volta ao topo e deixa o endereço limpo (sem "#topo").
+     Sem JavaScript o link #topo ainda funciona: ele aponta para o <body>. */
+  document.querySelectorAll("[data-top]").forEach((a) =>
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      setMenu(false);
+      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+      try { history.replaceState(null, "", location.pathname + location.search); } catch (_) { /* endereço fica com #topo, sem problema */ }
+    })
+  );
+
   /* Listas que entram em cascata: cada item ganha um atraso pela posição na lista */
   [
     [".menu__group li", 0.07],

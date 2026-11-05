@@ -43,7 +43,7 @@
   }
   </script>
 </head>
-<body>
+<body id="topo">
 <div class="progress" aria-hidden="true"></div>
 
 <!-- Ícones reutilizáveis -->
@@ -58,9 +58,10 @@
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
 <!-- ============ Cabeçalho ============ -->
-<header class="hdr" id="topo">
+<header class="hdr">
   <div class="wrap hdr__in">
-    <a class="brand" href="#topo" aria-label="Guina Alto Estilo — início">
+    <!-- A logo leva ao topo. O alvo #topo é o <body>: o cabeçalho é fixo na tela, e um link para ele não rola a página. -->
+    <a class="brand" href="#topo" data-top aria-label="Guina Alto Estilo — voltar ao topo">
       <img src="assets/logo-claro.png" width="46" height="46" alt="">
       <span class="brand__txt"><b>Guina</b><i>Alto Estilo</i></span>
     </a>
@@ -478,8 +479,9 @@
           <a class="btn btn--amber" href="https://www.google.com/maps/search/?api=1&query=-14.6816927%2C-42.5093945" target="_blank" rel="noopener">
             Abrir no Google Maps <svg aria-hidden="true"><use href="#i-arrow"/></svg>
           </a>
-          <!-- Street View da fachada: heading/pitch/fov copiados do link original -->
-          <a class="link-u" href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=-14.6816927%2C-42.5093945&heading=128.86&pitch=-22&fov=75" target="_blank" rel="noopener">
+          <!-- Street View da fachada (imagem de mai/2024) já de frente para o banner: direção 125°, inclinação -10°, zoom 42.
+               `pano` fixa o registro exato; se esse código deixar de valer, o Maps usa `viewpoint` (as coordenadas) no lugar. -->
+          <a class="link-u" href="https://www.google.com/maps/@?api=1&amp;map_action=pano&amp;pano=I0lxZSMCcrLPYtPDx8ZMvg&amp;viewpoint=-14.6816927%2C-42.5093945&amp;heading=125&amp;pitch=-10&amp;fov=42" target="_blank" rel="noopener">
             Ver a fachada no Street View <svg aria-hidden="true"><use href="#i-arrow"/></svg>
           </a>
         </div>
@@ -528,7 +530,9 @@
 <footer class="ftr">
   <div class="wrap ftr__grid">
     <div class="ftr__brand">
-      <img src="assets/logo-claro.png" width="96" height="96" alt="Guina Alto Estilo — desde 2010">
+      <a href="#topo" data-top aria-label="Guina Alto Estilo, desde 2010 — voltar ao topo">
+        <img src="assets/logo-claro.png" width="96" height="96" alt="">
+      </a>
       <p>Barba, cabelo e bigode com padrão elevado e atenção em cada detalhe.</p>
     </div>
     <nav class="ftr__col" aria-label="Rodapé">
