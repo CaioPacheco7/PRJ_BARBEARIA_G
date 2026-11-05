@@ -29,9 +29,9 @@
   --f-text: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-mono: "Spline Sans Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
 
-  --gut: clamp(20px, 4vw, 56px);
-  --gap: clamp(16px, 2.2vw, 32px);
-  --max: 1440px;
+  --gut: clamp(20px, 5vw, 96px);
+  --gap: clamp(16px, 2.2vw, 36px);
+  --inner: 1728px; /* largura máxima do conteúdo; abaixo disso ele usa a tela toda, só com a margem */
   --hdr: 76px;
 }
 
@@ -82,9 +82,7 @@ button { font: inherit; }
 
 .wrap {
   width: 100%;
-  max-width: var(--max);
-  margin-inline: auto;
-  padding-inline: var(--gut);
+  padding-inline: max(var(--gut), calc((100% - var(--inner)) / 2));
 }
 
 .sr-only {
@@ -315,17 +313,21 @@ button { font: inherit; }
 
 .mmenu {
   position: fixed; inset: 0; z-index: 40;
-  display: flex; flex-direction: column; justify-content: center; gap: 36px;
-  padding: 96px var(--gut) 40px;
+  display: flex; flex-direction: column; gap: clamp(14px, 4vh, 36px);
+  /* rola quando a tela é baixa (celular deitado); as margens automáticas abaixo mantêm o conteúdo centralizado */
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: calc(var(--hdr) + 14px) var(--gut) 32px;
   background: var(--ink);
   opacity: 0; visibility: hidden;
   transition: opacity .3s, visibility .3s;
 }
+.mmenu > :first-child { margin-top: auto; }
+.mmenu > :last-child { margin-bottom: auto; }
 .nav-open .mmenu { opacity: 1; visibility: visible; }
 .mmenu nav { display: grid; }
 .mmenu a {
-  padding: 6px 0;
-  font: 900 clamp(3rem, 15vw, 5.2rem)/1 var(--f-display);
+  padding: clamp(2px, .9vh, 6px) 0;
+  font: 900 clamp(2.4rem, min(15vw, 10vh), 5.2rem)/1 var(--f-display);
   text-transform: uppercase;
   border-bottom: 1px solid var(--line);
 }
@@ -347,18 +349,22 @@ button { font: inherit; }
 .hero__bg img {
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: 60% 62%;
-  filter: saturate(.78) contrast(1.1) brightness(.72);
+  object-position: 70% 55%;
+  filter: saturate(.95) contrast(1.06) brightness(.7);
   transform: scale(1.04);
   animation: drift 32s ease-in-out infinite alternate;
 }
 .hero__bg::after {
   content: ""; position: absolute; inset: 0;
   background:
-    linear-gradient(to bottom, rgba(10, 9, 8, .78), rgba(10, 9, 8, 0) 24%),
-    linear-gradient(to top, var(--ink) 2%, rgba(10, 9, 8, 0) 34%),
-    linear-gradient(90deg, rgba(10, 9, 8, .96) 0%, rgba(10, 9, 8, .82) 40%, rgba(10, 9, 8, .52) 72%, rgba(10, 9, 8, .66) 100%);
+    linear-gradient(to bottom, rgba(10, 9, 8, .7), rgba(10, 9, 8, 0) 22%),
+    linear-gradient(to top, var(--ink) 2%, rgba(10, 9, 8, 0) 30%),
+    linear-gradient(90deg, rgba(10, 9, 8, .95) 0%, rgba(10, 9, 8, .86) 34%, rgba(10, 9, 8, .5) 62%, rgba(10, 9, 8, .34) 82%, rgba(10, 9, 8, .5) 100%);
 }
+/* Fotos reais da barbearia: cor fiel, só um leve realce (o "banho" acima é para as fotos de banco) */
+.photo--real .photo__img { filter: saturate(.95) contrast(1.03) brightness(1.08); }
+.photo--real .photo__frame::after { background: linear-gradient(to top, rgba(10, 9, 8, .35), transparent 28%); }
+
 @keyframes drift { to { transform: scale(1.12) translate3d(-1.5%, -1%, 0); } }
 
 .hero::before {
@@ -379,11 +385,13 @@ button { font: inherit; }
 .hero__grid {
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, .6fr);
+  /* a coluna da direita nunca fica mais estreita que o botão "Agendar pelo WhatsApp" */
+  grid-template-columns: minmax(0, 1.4fr) minmax(19.5rem, .6fr);
   align-items: center;
   gap: clamp(24px, 4vw, 72px);
   padding-block: clamp(24px, 4vh, 64px);
 }
+@media (min-width: 901px) { .hero__side .hero__cta .btn { white-space: nowrap; } }
 
 .kicker {
   display: flex; align-items: center; gap: 14px;
@@ -397,7 +405,8 @@ button { font: inherit; }
 
 .hero__title {
   margin: 22px 0 26px;
-  font: 900 clamp(3.5rem, 9.2vw, 9.8rem)/.88 var(--f-display);
+  /* cresce com a largura, mas também respeita a altura: em janelas largas e baixas o título não empurra o botão para fora da tela */
+  font: 900 clamp(3.5rem, min(9.2vw, 19vh), 12.5rem)/.88 var(--f-display);
   text-transform: uppercase;
   letter-spacing: -.004em;
 }
@@ -421,12 +430,15 @@ button { font: inherit; }
   font-size: clamp(1.02rem, 1.3vw, 1.2rem);
   color: var(--bone-dim);
 }
-.hero__cta { display: flex; align-items: center; flex-wrap: wrap; gap: 20px 34px; margin-top: 32px; }
+/* Coluna da direita: selo e, logo abaixo dele, o botão de agendar */
+.hero__side { display: flex; flex-direction: column; align-items: center; width: 100%; }
+.hero__cta { display: flex; align-items: center; flex-wrap: wrap; gap: 20px 34px; }
+.hero__side .hero__cta { flex-direction: column; gap: 18px; margin-top: clamp(28px, 4vh, 44px); }
 
 /* Selo giratório */
 .seal {
   position: relative;
-  width: min(100%, 460px);
+  width: min(100%, 560px);
   aspect-ratio: 1;
   margin-inline: auto;
 }
@@ -542,7 +554,9 @@ button { font: inherit; }
   gap: clamp(40px, 7vw, 120px);
   align-items: start;
 }
-.menu__aside { position: sticky; top: calc(var(--hdr) + 36px); }
+.menu__aside { position: static; }
+/* a coluna só fica "grudada" quando cabe inteira na altura da tela */
+@media (min-width: 701px) and (min-height: 640px) { .menu__aside { position: sticky; top: calc(var(--hdr) + 36px); } }
 .menu__aside .h2 { color: var(--paper-ink); }
 .menu__lead { margin-top: 28px; max-width: 40ch; color: rgba(23, 19, 16, .75); }
 .demo-note {
@@ -668,6 +682,68 @@ button { font: inherit; }
 .insta:hover { background: var(--amber); color: var(--ink); padding-inline: 24px; }
 .insta:hover .mono-label, .insta:hover .insta__go { color: var(--ink); }
 
+/* ---------- Depoimentos ---------- */
+.reviews { overflow: hidden; }
+.reviews__top {
+  display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap;
+  gap: 16px 48px;
+  margin-bottom: clamp(36px, 5vw, 64px);
+}
+.reviews__lead { max-width: 36ch; color: var(--bone-dim); }
+
+.tm {
+  --tm-gap: 16px;
+  position: relative;
+  display: grid;
+  gap: var(--tm-gap);
+  overflow: hidden;
+}
+/* degradês laterais de 25% da largura, do preto do site para transparente (como no componente de referência) */
+.tm::before, .tm::after {
+  content: "";
+  position: absolute; top: 0; bottom: 0;
+  width: 25%;
+  z-index: 2;
+  pointer-events: none;
+}
+.tm::before { left: 0; background: linear-gradient(to right, var(--ink) 8%, rgba(10, 9, 8, 0)); }
+.tm::after { right: 0; background: linear-gradient(to left, var(--ink) 8%, rgba(10, 9, 8, 0)); }
+.tm__row { display: flex; width: max-content; animation: tm-left 60s linear infinite; }
+.tm__row[data-dir="right"] { animation-name: tm-right; }
+.tm:hover .tm__row { animation-play-state: paused; }
+.tm__group { display: flex; flex: none; gap: var(--tm-gap); padding-right: var(--tm-gap); }
+@keyframes tm-left { to { transform: translateX(-50%); } }
+@keyframes tm-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+/* cartão compacto e sóbrio: borda fina, sem cor forte, tipografia pequena */
+.tm__card {
+  flex: none;
+  width: 288px;
+  padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 12px;
+  background: rgba(23, 20, 18, .6);
+  border: 1px solid var(--line);
+  transition: border-color .3s, background .3s;
+}
+.tm__card:hover { border-color: var(--line-strong); background: var(--char); }
+.tm__card header { display: flex; align-items: center; gap: 10px; }
+.tm__av {
+  flex: none;
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  font: 500 .8rem/1 var(--f-mono);
+  color: var(--bone-dim);
+  background: var(--iron);
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+}
+.tm__card b { display: block; font: 500 .875rem/1.2 var(--f-text); color: var(--bone); }
+.tm__card small { display: block; margin-top: 2px; font: 400 .72rem/1.2 var(--f-text); color: var(--mute); }
+.tm__card blockquote { margin: 0; color: var(--bone-dim); font-size: .875rem; line-height: 1.55; filter: saturate(.55); }
+.tm__card--emoji blockquote { letter-spacing: .12em; filter: saturate(.4) opacity(.85); }
+
+.demo-note--dark { margin-top: clamp(28px, 4vw, 44px); border-top: 1px solid var(--line); color: var(--mute); }
+
 /* ---------- Agendamento ---------- */
 .book { background: var(--coal); border-block: 1px solid var(--line); }
 .book__grid {
@@ -753,6 +829,7 @@ button { font: inherit; }
 }
 .where__copy { display: flex; flex-direction: column; align-items: flex-start; }
 .where__copy .h2 em { display: block; margin-top: 10px; font-size: .5em; line-height: 1; letter-spacing: .06em; }
+.where__actions { display: flex; align-items: center; flex-wrap: wrap; gap: 20px 32px; }
 .contacts { width: 100%; margin: clamp(32px, 4vw, 52px) 0; }
 .contacts li {
   display: grid;
@@ -785,6 +862,91 @@ button { font: inherit; }
   border: 1px solid var(--line-strong);
   filter: invert(.92) hue-rotate(180deg) grayscale(.55) contrast(.92) brightness(.88);
 }
+
+/* ---------- Como chegar (fotos do local) ---------- */
+.place { margin-top: clamp(56px, 8vw, 112px); }
+.place__head {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: 8px 32px;
+  margin-bottom: clamp(20px, 3vw, 36px);
+}
+.place__head p { max-width: 52ch; color: var(--bone-dim); }
+/* três fotos em uma linha só, na mesma altura: a largura de cada coluna é
+   proporcional à proporção da foto (1600:796, 1487:1058, 1280:1226) */
+.place__grid {
+  display: grid;
+  grid-template-columns: 2.01fr 1.41fr 1.04fr;
+  gap: var(--gap);
+  align-items: start;
+}
+.place__fig figcaption {
+  display: flex; gap: 12px; align-items: baseline;
+  margin-top: 16px;
+  font: 500 .72rem var(--f-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.place__fig figcaption b { color: var(--amber); font-weight: 600; }
+.place__fig:hover .photo__img { transform: scale(1.04); }
+
+/* ---------- Horários ---------- */
+.hours {
+  margin-top: clamp(56px, 8vw, 112px);
+  padding-top: clamp(28px, 4vw, 48px);
+  border-top: 1px solid var(--line-strong);
+}
+.hours__head {
+  display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap;
+  gap: 12px 40px;
+  margin-bottom: clamp(20px, 3vw, 36px);
+}
+.hours__title {
+  font: 800 clamp(1.9rem, 3.4vw, 3rem)/1 var(--f-display);
+  text-transform: uppercase;
+  letter-spacing: .01em;
+}
+.hours__note { max-width: 44ch; color: var(--bone-dim); font-size: .95rem; }
+
+.hours__row {
+  display: grid;
+  grid-template-columns: clamp(120px, 14vw, 190px) 1fr;
+  align-items: start;
+  gap: 14px 24px;
+  padding-block: 22px;
+  border-top: 1px solid var(--line);
+}
+.hours__row:last-child { border-bottom: 1px solid var(--line); }
+.hours__day { padding-top: 11px; color: var(--bone-dim); }
+.hours__row--fri .hours__day { color: var(--amber); }
+
+.slots { display: flex; flex-wrap: wrap; gap: 8px; }
+.slots li {
+  padding: 10px 15px;
+  font: 500 .95rem/1 var(--f-mono);
+  letter-spacing: .04em;
+  border: 1px solid var(--line-strong);
+  transition: border-color .25s, color .25s;
+}
+.hours__row--fri .slots li { border-color: rgba(227, 139, 58, .45); }
+.slots li:hover { border-color: var(--amber); color: var(--amber); }
+
+.hours__cta { display: flex; align-items: center; flex-wrap: wrap; gap: 16px 28px; margin-top: clamp(24px, 3vw, 36px); }
+.hours__cta-note { color: var(--bone-dim); font-size: .95rem; }
+.menu .hours__cta-note { color: rgba(23, 19, 16, .72); }
+.menu .btn--amber:hover { background: var(--paper-ink); color: var(--paper); }
+
+/* os horários moram na seção de papel (Serviços e valores): versão clara */
+.menu .hours { margin-top: clamp(48px, 6vw, 88px); border-top: 3px solid var(--paper-ink); }
+.menu .hours__title { color: var(--paper-ink); }
+.menu .hours__note { color: rgba(23, 19, 16, .72); }
+.menu .hours__row { border-top-color: rgba(23, 19, 16, .18); }
+.menu .hours__row:last-child { border-bottom-color: rgba(23, 19, 16, .18); }
+.menu .hours__day { color: rgba(23, 19, 16, .65); }
+.menu .hours__row--fri .hours__day { color: var(--amber-deep); }
+.menu .slots li { border-color: rgba(23, 19, 16, .35); color: var(--paper-ink); }
+.menu .hours__row--fri .slots li { border-color: rgba(168, 86, 26, .6); }
+.menu .slots li:hover { border-color: var(--paper-ink); background: var(--paper-ink); color: var(--paper); }
 
 /* ---------- Rodapé ---------- */
 .ftr { padding-top: clamp(56px, 8vw, 104px); overflow: hidden; border-top: 1px solid var(--line); }
@@ -821,15 +983,24 @@ button { font: inherit; }
 }
 
 /* ---------- Botão fixo (celular) ---------- */
-.dock {
+/* Pequeno e discreto: um "Agendar" no canto, em vez de uma barra que cobre o conteúdo.
+   `.dock.btn` (duas classes) ganha das regras de `.btn` dos celulares estreitos. */
+.dock.btn {
   display: none;
-  position: fixed; left: 14px; right: 14px; bottom: 14px; z-index: 45;
-  width: auto; /* ganha de .btn{width:100%} do celular: senão vaza 14px */
-  transform: translateY(150%);
+  position: fixed; left: auto; right: 14px;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  z-index: 45;
+  width: auto; min-height: 44px;
+  padding: 0 16px; gap: 8px;
+  font-size: .75rem; letter-spacing: .1em; line-height: 1; white-space: nowrap;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  transform: translateY(160%);
   transition: transform .4s cubic-bezier(.2, .7, .1, 1), background .25s;
 }
-.dock.btn { width: auto; }
+.dock.btn svg { width: 17px; height: 17px; }
 .dock.is-visible { transform: none; }
+/* com o menu aberto, o botão some por trás dele */
+.nav-open .dock.btn { transform: translateY(160%); }
 
 /* ---------- Responsivo ---------- */
 @media (max-width: 1100px) {
@@ -840,48 +1011,83 @@ button { font: inherit; }
 
 @media (max-width: 900px) {
   :root { --hdr: 68px; }
-  body { padding-bottom: 84px; }
+  body { padding-bottom: 64px; } /* o botão fixo não cobre o fim da página */
 
   .hdr__in { grid-template-columns: 1fr auto; }
   .nav, .hdr__cta { display: none; }
   .nav-toggle { display: block; }
-  .dock { display: inline-flex; }
+  .dock.btn { display: inline-flex; }
 
-  .hero__grid { grid-template-columns: 1fr; }
-  .hero__bg img { object-position: 64% 60%; }
+  .hero__grid { grid-template-columns: 1fr; padding-bottom: clamp(56px, 13vw, 104px); }
+  /* celular/tablet: texto, depois o botão, depois o selo (o botão aparece cedo) */
+  .hero__side { display: contents; }
+  .hero__copy { order: 1; }
+  .hero__side .hero__cta { order: 2; flex-direction: row; align-items: center; justify-content: flex-start; gap: 20px 34px; margin-top: 0; }
+  .seal { order: 3; }
+  .hero__bg img { object-position: 72% 60%; }
   .hero__bg::after {
     background:
-      linear-gradient(to bottom, rgba(10, 9, 8, .88), rgba(10, 9, 8, .82) 55%, rgba(10, 9, 8, .93)),
+      linear-gradient(to bottom, rgba(10, 9, 8, .86), rgba(10, 9, 8, .7) 50%, rgba(10, 9, 8, .84)),
       linear-gradient(to top, var(--ink) 2%, rgba(10, 9, 8, 0) 26%);
   }
-  .seal { width: min(78vw, 340px); margin-top: 8px; }
-  .rail { grid-template-columns: 1fr; }
-  .rail > div, .rail > div + div { padding: 20px 0; border-right: 0; border-bottom: 1px solid var(--line); }
-  .rail > div:last-child { border-bottom: 0; }
-
-  .about__grid { grid-template-columns: 1fr; }
-  .about__copy, .about__media { grid-column: 1; }
-  .about__media { margin-top: 24px; padding-bottom: 14%; }
-
-  .menu__grid { grid-template-columns: 1fr; }
-  .menu__aside { position: static; }
+  /* o selo ganha folga de todos os lados: não encosta no botão nem na fita de serviços */
+  .seal { width: min(74vw, 340px); margin-top: clamp(28px, 7vw, 52px); }
+  /* celular: a faixa Desde/Endereço/Agenda some, porque o texto que gira em volta do selo já diz o mesmo */
+  .rail { display: none; }
 
   .cuts__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .cut--1, .cut--2, .cut--3, .cut--4, .cut--5, .cut--6 { grid-column: auto; margin-top: 0; }
   .cut--2, .cut--5 { margin-top: 48px; }
   .insta { grid-template-columns: 1fr; }
 
-  .book__grid { grid-template-columns: 1fr; }
-  .where__grid { grid-template-columns: 1fr; }
-  .where__map { min-height: 360px; }
   .ftr__grid { grid-template-columns: 1fr 1fr; }
   .ftr__brand { grid-column: 1 / -1; }
+}
+
+/* Abaixo de 700px as seções viram uma coluna só. Entre 701 e 900px (iPad e tablets em pé)
+   elas mantêm as duas colunas, para aproveitar a largura em vez de deixar a metade vazia. */
+@media (max-width: 700px) {
+  .about__grid { grid-template-columns: minmax(0, 1fr); }
+  .about__copy, .about__media { grid-column: 1; }
+  .about__media { margin-top: 24px; padding-bottom: 14%; }
+  .menu__grid { grid-template-columns: minmax(0, 1fr); }
+  .book__grid { grid-template-columns: minmax(0, 1fr); }
+  .where__grid { grid-template-columns: minmax(0, 1fr); }
+  .where__map { min-height: 360px; }
+  .hours__row { grid-template-columns: 1fr; gap: 12px; }
+  .hours__day { padding-top: 0; }
+}
+
+/* Tablet em pé (iPad, Galaxy Tab...): título largo ocupando a tela; texto e botão à esquerda, selo à direita */
+@media (min-width: 601px) and (max-width: 900px) and (min-height: 560px) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    grid-template-areas: "kicker kicker" "title title" "lead seal" "cta seal";
+    column-gap: clamp(24px, 5vw, 56px);
+    row-gap: 0;
+    align-content: center;
+    padding-bottom: clamp(48px, 9vw, 88px);
+  }
+  .hero__copy { display: contents; }
+  .kicker { grid-area: kicker; }
+  .hero__title { grid-area: title; font-size: clamp(5.4rem, 15.4vw, 9.2rem); margin: 22px 0 32px; }
+  .hero__lead { grid-area: lead; align-self: end; }
+  .hero__side .hero__cta { grid-area: cta; align-self: start; margin-top: 28px; }
+  .seal { grid-area: seal; align-self: center; justify-self: center; width: min(100%, 380px); margin-top: 0; }
+  /* a cadeira fica à direita e o lado do texto escurece, como no desktop */
+  .hero__bg img { object-position: 56% 60%; }
+  .hero__bg::after {
+    background:
+      linear-gradient(to bottom, rgba(10, 9, 8, .7), rgba(10, 9, 8, 0) 20%),
+      linear-gradient(to top, var(--ink) 2%, rgba(10, 9, 8, 0) 28%),
+      linear-gradient(90deg, rgba(10, 9, 8, .94) 0%, rgba(10, 9, 8, .82) 42%, rgba(10, 9, 8, .5) 100%);
+  }
 }
 
 @media (max-width: 560px) {
   body { font-size: 1rem; }
   .btn { width: 100%; }
-  .hero__cta { flex-direction: column; align-items: flex-start; gap: 22px; }
+  .hero__side .hero__cta { flex-direction: column; align-items: flex-start; gap: 22px; }
   .hero__cta .btn { width: 100%; }
   .stats dd small { display: block; margin: 4px 0 0; }
   .stats > div + div { padding-left: 12px; }
@@ -896,13 +1102,109 @@ button { font: inherit; }
 
   .cuts__grid { gap: 28px 14px; }
   .cut--2, .cut--5 { margin-top: 36px; }
-  .cut figcaption { flex-direction: column; gap: 2px; font-size: .64rem; }
+  .cut figcaption { flex-direction: column; gap: 2px; font-size: .68rem; }
 
   .photo--a { width: 84%; }
+  /* celular: as duas praças lado a lado e a fachada embaixo, mais baixa */
+  .place__grid { grid-template-columns: 1fr 1fr; }
+  .place__fig--a .photo, .place__fig--b .photo { aspect-ratio: 4/3; }
+  .place__fig--c { grid-column: 1 / -1; }
+  .place__fig--c .photo { aspect-ratio: 16/10; }
+  .place__fig--c .photo__img { object-position: 50% 55%; }
+  .place__fig figcaption { flex-direction: column; gap: 2px; font-size: .68rem; }
   .ftr__grid { grid-template-columns: 1fr; }
   .ftr__brand { flex-direction: column; align-items: flex-start; }
   .chat__body { min-height: 0; }
 }
+
+/* =========================================================
+   Animações extras: sutis e uma por intenção.
+   Usam as propriedades `translate` e `scale` (separadas de
+   `transform`) para não brigar com as animações já existentes.
+   ========================================================= */
+
+/* barra de progresso da leitura, no topo */
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  height: 2px;
+  background: var(--amber);
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* entrada da página: cabeçalho desce, o hero chega em sequência */
+@keyframes hdr-in { from { transform: translateY(-100%); opacity: 0; } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(26px); } }
+@keyframes seal-in { from { opacity: 0; scale: .88; } }
+.hdr { animation: hdr-in .9s cubic-bezier(.2, .7, .1, 1) both; }
+.kicker { animation: fade-up .9s cubic-bezier(.2, .7, .1, 1) .1s both; }
+.hero__lead { animation: fade-up .9s cubic-bezier(.2, .7, .1, 1) .8s both; }
+.hero__cta { animation: fade-up .9s cubic-bezier(.2, .7, .1, 1) 1s both; }
+.seal { animation: seal-in 1.4s cubic-bezier(.2, .7, .1, 1) .45s both; }
+.rail > div { animation: fade-up .9s cubic-bezier(.2, .7, .1, 1) both; }
+.rail > div:nth-child(1) { animation-delay: .95s; }
+.rail > div:nth-child(2) { animation-delay: 1.07s; }
+.rail > div:nth-child(3) { animation-delay: 1.19s; }
+
+/* hero: o conteúdo sobe e some devagar ao rolar; o selo acompanha o mouse de leve */
+.hero__grid { translate: 0 calc(var(--hy, 0) * 1px); opacity: var(--ho, 1); }
+/* celular, tablet e telas baixas: o hero é maior que a tela, então o conteúdo não anda nem some ao rolar */
+@media (max-width: 900px), (max-height: 560px) { .hero__grid { translate: none; opacity: 1; } }
+.seal { translate: calc(var(--sx, 0) * 1px) calc(var(--sy, 0) * 1px); transition: translate .6s cubic-bezier(.2, .7, .1, 1); }
+
+/* títulos de seção: o número e o nome entram e a linha se desenha */
+.js .sec-head__n, .js .sec-head__t { opacity: 0; transform: translateX(-12px); transition: opacity .8s, transform .8s cubic-bezier(.2, .7, .1, 1); }
+.js .sec-head__t { transition-delay: .12s; }
+.js .sec-head__rule { transform: scaleX(0); transform-origin: left; transition: transform 1.5s cubic-bezier(.2, .7, .1, 1) .2s; }
+.js .sec-head.is-in .sec-head__n, .js .sec-head.is-in .sec-head__t { opacity: 1; transform: none; }
+.js .sec-head.is-in .sec-head__rule { transform: none; }
+
+/* h2: revelado de baixo para cima, como uma cortina */
+.js .h2.reveal {
+  opacity: 1;
+  transform: translateY(34px);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.1s cubic-bezier(.2, .7, .1, 1) var(--d, 0s), transform 1.1s cubic-bezier(.2, .7, .1, 1) var(--d, 0s);
+}
+.js .h2.reveal.is-in { transform: none; clip-path: inset(-8% -4% -8% -4%); }
+
+/* fotos: o quadro se abre de baixo para cima e a imagem assenta (zoom que diminui) */
+.js .reveal .photo__frame, .js .photo.reveal .photo__frame {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.3s cubic-bezier(.2, .7, .1, 1) calc(var(--d, 0s) + .1s);
+}
+.js .reveal.is-in .photo__frame, .js .photo.reveal.is-in .photo__frame { clip-path: inset(0); }
+.js .reveal .photo__img {
+  scale: 1.2;
+  transition: scale 1.8s cubic-bezier(.2, .7, .1, 1) calc(var(--d, 0s) + .1s), transform 1.1s cubic-bezier(.2, .7, .1, 1);
+}
+.js .reveal.is-in .photo__img { scale: 1; }
+/* os cantos âmbar crescem ao passar o mouse */
+.photo::before, .photo::after { transition: width .4s, height .4s; }
+.cut:hover .photo::before, .cut:hover .photo::after,
+.place__fig:hover .photo::before, .place__fig:hover .photo::after { width: 30px; height: 30px; }
+.cut .photo { transition: translate .5s cubic-bezier(.2, .7, .1, 1); }
+.cut:hover .photo { translate: 0 -6px; }
+
+/* foto pequena de "A casa" desliza em outra velocidade ao rolar */
+.photo--b { translate: 0 calc(var(--py, 0) * 1px); }
+/* palavra gigante do rodapé anda de lado conforme chega */
+.ftr__big { translate: calc(var(--fx, 0) * 1px) 0; }
+
+/* botões âmbar: um brilho passa ao encostar */
+.btn--amber:not(.dock) { position: relative; overflow: hidden; }
+.btn--amber::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .4) 50%, transparent 65%);
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+.btn--amber:hover::after { transform: translateX(130%); transition: transform .9s cubic-bezier(.2, .7, .1, 1); }
+
+/* menu do topo: link da seção atual fica marcado */
+.nav a.is-active { color: var(--bone); }
+.nav a.is-active::after { transform: scaleX(1); }
 
 /* Celulares bem estreitos (320–380px): botão com texto numa linha só */
 @media (max-width: 380px) {
@@ -913,17 +1215,125 @@ button { font: inherit; }
 /* Dedo no lugar do mouse: alvos de toque de ~44px */
 @media (pointer: coarse) {
   .link-u { padding-block: 14px; }
+  /* menu do topo em tablet deitado: alvo de ~48px, com o sublinhado de volta junto ao texto */
+  .nav a { padding: 14px 6px; }
+  .nav a::after { left: 6px; right: 6px; bottom: 11px; }
   .ftr__col { gap: 2px; }
-  .ftr__col a { padding-block: 10px; }
+  .ftr__col a { display: inline-flex; align-items: center; padding: 10px 8px; margin-inline: -8px; min-width: 44px; min-height: 44px; }
   .ftr__col .mono-label { margin-bottom: 8px; }
-  .contacts a { padding-block: 10px; }
+  .contacts a { display: inline-flex; align-items: center; padding-block: 10px; min-height: 44px; }
 }
 
-/* Celular deitado: pouca altura, então o botão fixo vira uma pílula no canto */
+/* Celular deitado: pouca altura, então o botão fixo fica um pouco mais baixo no canto */
 @media (max-height: 480px) and (max-width: 900px) {
-  body { padding-bottom: 0; }
-  .dock { left: auto; right: 14px; bottom: 10px; padding: 13px 18px; }
+  .dock.btn { bottom: calc(8px + env(safe-area-inset-bottom, 0px)); }
   .hero { min-height: 0; }
+  .seal { width: min(62vh, 260px); }
+}
+
+/* Celular deitado (largo e baixo): o hero volta a ter duas colunas, texto à esquerda e selo + botão à direita,
+   para o botão de agendar aparecer logo na primeira tela */
+@media (max-width: 900px) and (max-height: 520px) and (min-width: 560px) {
+  .hero__grid { grid-template-columns: minmax(0, 1fr) minmax(13.5rem, .4fr); align-items: center; gap: 22px; padding-block: 12px 28px; }
+  .hero__side { display: flex; order: 1; }
+  .hero__copy { order: 0; }
+  .hero__side .hero__cta { order: 0; flex-direction: column; align-items: center; gap: 4px; margin-top: 14px; }
+  .hero__side .hero__cta .btn { width: auto; padding: 14px 14px; font-size: .68rem; letter-spacing: .06em; white-space: nowrap; }
+  .hero__side .hero__cta .link-u { padding-block: 12px; }
+  .seal { order: 0; width: min(38vh, 190px); margin-top: 0; }
+  .hero__title { font-size: min(8vw, 16vh); margin: 10px 0 12px; }
+  .hero__lead { font-size: .88rem; max-width: 40ch; }
+  .kicker { font-size: .66rem; }
+}
+
+/* Celular deitado mais largo (≥901px de largura e ≤520px de altura, ex.: 915x412) e janelas bem baixas:
+   hero compacto, com título, texto, selo e botão já na primeira tela */
+@media (min-width: 901px) and (max-height: 520px) {
+  .hero__grid { padding-block: 12px 24px; }
+  .hero__title { font-size: min(7.2vw, 15vh); margin: 10px 0 12px; }
+  .hero__lead { font-size: .9rem; }
+  .kicker { font-size: .68rem; }
+  .seal { width: min(100%, 44vh); }
+  .hero__side .hero__cta { margin-top: 10px; gap: 6px; }
+  .hero__side .hero__cta .btn { padding: 14px 18px; }
+}
+
+@media (max-width: 320px) {
+  :root { --gut: max(11px, 6.25vw); --hdr: 60px; }
+  .btn { white-space: normal; text-align: center; line-height: 1.25; padding: 13px 12px; gap: 8px; letter-spacing: .06em; }
+  .hdr .brand img { width: 36px; height: 36px; }
+  .brand { gap: 8px; min-height: 44px; }
+  .nav-toggle { width: 40px; height: 40px; }
+  .nav-toggle i { left: 10px; right: 10px; }
+  .nav-toggle i:nth-of-type(1) { top: 14px; }
+  .nav-toggle i:nth-of-type(2) { top: 22px; }
+  .nav-open .nav-toggle i:nth-of-type(1), .nav-open .nav-toggle i:nth-of-type(2) { top: 18px; }
+  .dock.btn { right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); }
+  .hero__title { font-size: 3.1rem; }
+}
+
+/* Relógio e telas ≤ 270px (≈184px): coluna única e tipos menores só nos itens largos.
+   O corpo do texto continua em 16px, para nada ficar pequeno demais para ler.
+   Fica depois do bloco de ≤320px de propósito: aqui os valores ganham dos dele. */
+@media (max-width: 270px) {
+  :root { --gut: 11px; }
+  .brand i { display: none; }
+  .brand b { font-size: 1.2rem; }
+  .kicker { gap: 8px; letter-spacing: .08em; }
+  .kicker span { gap: 8px; }
+  .kicker span::after { width: 14px; }
+  .hero__title { font-size: 2.2rem; margin: 14px 0 18px; }
+  .h2 { font-size: 2.1rem; }
+  .stats { grid-template-columns: 1fr; }
+  .stats > div, .stats > div + div { padding: 12px 0; border-left: 0; }
+  .stats > div + div { border-top: 1px solid var(--line); }
+  .cuts__grid, .place__grid { grid-template-columns: minmax(0, 1fr); }
+  .cut--2, .cut--5 { margin-top: 0; }
+  .place__fig--a .photo, .place__fig--b .photo, .place__fig--c .photo { aspect-ratio: 4/3; }
+  .row { grid-template-columns: minmax(0, 1fr) auto; }
+  .row__n { display: none; }
+  .row__name { font-size: .9rem; overflow-wrap: anywhere; }
+  .row__price { font-size: 1.4rem; }
+  .steps li { grid-template-columns: 2.6rem minmax(0, 1fr); }
+  .steps__n { font-size: 2rem; }
+  .hours__title { font-size: 1.6rem; }
+  .contacts li { grid-template-columns: 22px minmax(0, 1fr); gap: 12px; }
+  .contacts a, .ftr__col a { overflow-wrap: anywhere; }
+  .insta__handle { font-size: 9.5vw; }
+  .ftr__big { font-size: 34vw; }
+}
+
+/* TVs e monitores 4K (a partir de 2400px): a interface cresce junto com a tela.
+   A base de 16px sobe até ~24px em 3840px. A escala usa a menor entre a largura e a largura de uma tela 16:9
+   da mesma altura, para monitores ultralargos (3440x1440) não ficarem com tudo gigante.
+   Os valores em px que contam para o ritmo da página passam para rem, para crescerem junto. */
+@media (min-width: 2400px) {
+  html { font-size: max(16px, calc(16px + (min(100vw, 177.78vh) - 2400px) * .0055)); }
+  :root { --inner: 108rem; --gut: 6rem; --gap: 2.25rem; --hdr: 4.75rem; }
+  .sec { padding-block: 9.5rem; }
+  .sec-head { gap: 1.125rem; margin-bottom: 5rem; }
+  .hero__title { margin: 1.375rem 0 1.625rem; }
+  .hero__cta { gap: 1.25rem 2.125rem; }
+  .hero__side .hero__cta { margin-top: 2.5rem; }
+  .brand img { width: 2.875rem; height: 2.875rem; }
+  .btn { padding: 1.25rem 1.75rem; gap: .875rem; }
+  .btn svg { width: 1.125rem; height: 1.125rem; }
+  .btn--amber { clip-path: polygon(0 0, calc(100% - .875rem) 0, 100% .875rem, 100% 100%, 0 100%); }
+  .btn--sm { padding: .9375rem 1.25rem; gap: .625rem; }
+  .btn--sm svg { width: .9375rem; height: .9375rem; }
+  .seal { width: min(100%, 35rem); }
+  .marquee__group span { padding-block: 1.5rem; }
+  .marquee__group i { width: .5625rem; height: .5625rem; }
+  .photo::before, .photo::after, .where__map::before, .where__map::after { width: 1rem; height: 1rem; }
+  .row { padding-block: 1.125rem; }
+  .slots li { padding: .625rem .9375rem; }
+  .chat { width: min(100%, 25rem); }
+  .chat__body { min-height: 32.5rem; }
+  .tm { --tm-gap: 1rem; }
+  .tm__card { width: 18rem; padding: 1.125rem 1.25rem; }
+  .tm__av { width: 2rem; height: 2rem; }
+  .where__map { min-height: 30rem; }
+  .ftr__brand img { width: 6rem; height: 6rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -934,5 +1344,15 @@ button { font: inherit; }
     transition-duration: .01ms !important;
   }
   .js .reveal, .js .chat:not(.is-live) .msg { opacity: 1; transform: none; }
+  /* sem animação: as fileiras viram faixas roláveis com o dedo */
+  .tm__row { width: auto; overflow-x: auto; animation: none; scrollbar-width: none; }
+  .js .h2.reveal, .js .reveal .photo__frame, .js .photo.reveal .photo__frame { clip-path: none; }
+  .js .reveal .photo__img { scale: 1; }
+  .js .sec-head__n, .js .sec-head__t { opacity: 1; transform: none; }
+  .js .sec-head__rule { transform: none; }
+  .hdr, .kicker, .hero__lead, .hero__cta, .seal, .rail > div { animation: none; }
+  .hero__grid, .photo--b, .ftr__big, .seal { translate: none; }
+  .hero__grid { opacity: 1; }
+  .progress { display: none; }
   .hero__title .ln > span { transform: none; }
 }

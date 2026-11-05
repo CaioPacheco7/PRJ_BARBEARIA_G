@@ -2,3 +2,10 @@ node_modules/
 Thumbs.db
 .DS_Store
 *.log
+
+# Originais pesados das fotos (ficam só no computador). O site usa as versões leves em assets/fotos/*.jpg
+assets/fotos/local/
+assets/fotos/banner/
+
+# Pasta de ligação com o projeto da Vercel
+.vercel

@@ -1,21 +1,27 @@
-FOTOS PROVISÓRIAS (BANCO DE IMAGENS)
-====================================
+ORIGEM DAS FOTOS
+================
 
-Estas 8 fotos são imagens de banco gratuito (Pexels) usadas só para a demonstração.
-NÃO são da barbearia do Guina nem de clientes dele. Antes de publicar de verdade,
-substitua todas por fotos reais (basta salvar o arquivo novo com o mesmo nome).
+FOTOS REAIS DA BARBEARIA DO GUINA (enviadas pelo Caio; originais em assets/fotos/local/)
+  casa-01.jpg          interior da barbearia
+  casa-02.jpg          cadeira infantil em formato de carrinho esportivo (recortada para tirar o quadro de preços)
+  corte-01.jpg         corte com desenho na navalha (recortado para tirar quadro de preços e pessoas ao fundo)
+  corte-02.jpg         corte na máquina
+  corte-03.jpg         barba, acabamento com a máquina de precisão
+  corte-04.jpg         degradê com acabamento e desenho na nuca (visto por trás, sem rosto)
+  corte-05.jpg         sobrancelha modelada na navalha
+  corte-06.jpg         corte infantil no carrinho
+  local-fachada.jpg    fachada com o banner do Guina
+  local-praca.jpg      a praça, de frente para a barbearia
+  local-praca-2.jpg    a praça vista de outro ângulo
+  Os .jpg acima são versões leves/recortadas. Os PNG originais ficam só no computador, em assets/fotos/local/
+  e assets/fotos/banner/ (fora do git e do deploy, de propósito: pesam ~34 MB e mostram quadros de preço e pessoas ao fundo).
 
-Licença Pexels: uso gratuito, inclusive comercial, sem obrigação de crédito.
-https://www.pexels.com/license/
-(Mesmo assim, as pessoas que aparecem são modelos de banco de imagem; por isso a
-troca por fotos reais é recomendada no site final.)
+IMAGEM GERADA POR IA (fundo do topo da página)
+  hero.jpg  gerada por IA a partir de referências da barbearia (original em assets/fotos/banner/).
+  É uma ilustração fiel ao espaço, não uma foto da barbearia. Se o Guina fechar, o ideal é
+  trocar por uma foto real de ângulo largo (basta salvar o arquivo novo com o mesmo nome).
+  O banner da mesma pasta (Experiência em Cada Corte) não é usado no site.
 
-  hero.jpg      https://www.pexels.com/photo/interior-of-hairdresser-saloon-9146943/  (fundo do topo da página)
-  casa-01.jpg   https://www.pexels.com/photo/the-interior-of-a-barber-shop-7518728/
-  casa-02.jpg   https://www.pexels.com/photo/close-up-shot-of-barber-tools-13058740/
-  corte-01.jpg  https://www.pexels.com/photo/a-man-having-a-haircut-12304508/
-  corte-02.jpg  https://www.pexels.com/photo/person-using-hair-razor-on-man-s-hair-3356174/
-  corte-03.jpg  https://www.pexels.com/photo/photo-of-a-man-getting-his-beard-shaved-10024234/
-  corte-04.jpg  https://www.pexels.com/photo/man-taking-beard-shave-897262/
-  corte-05.jpg  https://www.pexels.com/photo/man-in-black-suit-holding-mans-face-3998421/
-  corte-06.jpg  https://www.pexels.com/photo/barber-sitting-by-little-boy-and-shaving-his-hair-19664875/  (Kawê Rodrigues)
+AVISOS SOBRE AS FOTOS REAIS
+- Aparecem clientes, inclusive crianças e adolescentes: confirmar com o Guina/responsáveis a autorização de uso.
+- Alguns quadros de preço que aparecem nas fotos originais mostram valores diferentes entre si; por isso foram recortados.
