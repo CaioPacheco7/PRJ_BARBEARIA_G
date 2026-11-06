@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#1b1716">
+  <title>Painel · Guina Alto Estilo</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+
+<!-- carregando -->
+<section id="v-load" class="center" aria-live="polite"><p class="muted">Carregando…</p></section>
+
+<!-- entrar -->
+<section id="v-login" class="center login" hidden>
+  <form id="login-form" class="login__card" autocomplete="on" novalidate>
+    <img class="login__logo" src="/assets/logo-claro.png" width="88" height="88" alt="Guina Alto Estilo">
+    <h1>Área do Guina</h1>
+    <p class="muted">Entre para alterar preços e horários.</p>
+
+    <label for="senha">Senha</label>
+    <div class="pw">
+      <input id="senha" name="password" type="password" autocomplete="current-password" required>
+      <button type="button" id="ver-senha" class="pw__btn" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
+    </div>
+
+    <p id="login-erro" class="msg msg--erro" role="alert" hidden></p>
+    <button type="submit" id="login-btn" class="btn btn--amber">Entrar</button>
+    <a class="back" href="/">← Voltar ao site</a>
+  </form>
+</section>
+
+<!-- painel -->
+<section id="v-panel" hidden>
+  <header class="top">
+    <div class="top__in">
+      <a class="top__brand" href="/admin/"><img src="/assets/logo-claro.png" width="34" height="34" alt=""><span><b>Guina Alto Estilo</b><i>PAINEL</i></span></a>
+      <div class="top__act">
+        <a class="btn btn--ghost" href="/" target="_blank" rel="noopener">Ver o site</a>
+        <button type="button" id="sair" class="btn btn--ghost">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="intro">
+      <h1 id="painel-titulo" tabindex="-1">Preços e horários</h1>
+      <p class="muted">Altere e clique em <b>Salvar</b>. O site é atualizado na hora. <span id="atualizado"></span></p>
+    </div>
+
+    <p id="aviso-storage" class="msg msg--aviso" role="status" hidden></p>
+
+    <section aria-labelledby="h-precos">
+      <h2 id="h-precos" class="sec">Preços <small>R$</small></h2>
+      <div id="precos" class="grid"></div>
+    </section>
+
+    <section aria-labelledby="h-horarios">
+      <h2 id="h-horarios" class="sec">Horários de atendimento</h2>
+      <div class="grid grid--2">
+        <div class="card" id="card-weekdays">
+          <h3>Demais dias</h3>
+          <ul class="chips" id="chips-weekdays" aria-label="Horários nos demais dias"></ul>
+          <form class="add" data-key="weekdays" novalidate>
+            <label class="sr" for="add-weekdays">Novo horário nos demais dias</label>
+            <input id="add-weekdays" type="time" step="60" required>
+            <button type="submit" class="btn btn--soft">Adicionar</button>
+          </form>
+        </div>
+        <div class="card" id="card-friday">
+          <h3>Sextas</h3>
+          <ul class="chips" id="chips-friday" aria-label="Horários nas sextas"></ul>
+          <form class="add" data-key="friday" novalidate>
+            <label class="sr" for="add-friday">Novo horário nas sextas</label>
+            <input id="add-friday" type="time" step="60" required>
+            <button type="submit" class="btn btn--soft">Adicionar</button>
+          </form>
+        </div>
+      </div>
+      <p id="add-erro" class="msg msg--erro" role="alert" hidden></p>
+    </section>
+  </main>
+
+  <div class="savebar" id="savebar">
+    <div class="savebar__in">
+      <p id="status" class="savebar__txt muted" role="status" aria-live="polite">Nenhuma alteração.</p>
+      <div class="savebar__btns">
+        <button type="button" id="descartar" class="btn btn--ghost" disabled>Descartar</button>
+        <button type="button" id="salvar" class="btn btn--amber" disabled>Salvar alterações</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/admin/admin.js" defer></script>
+</body>
+</html>

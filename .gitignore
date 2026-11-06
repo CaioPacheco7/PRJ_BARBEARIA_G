@@ -9,3 +9,8 @@ assets/fotos/banner/
 
 # Pasta de ligação com o projeto da Vercel
 .vercel
+
+# Senha e dados locais do painel (nunca vão para o git)
+.env
+.env.*
+.data/
