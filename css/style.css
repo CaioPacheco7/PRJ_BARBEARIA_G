@@ -980,6 +980,26 @@ button { font: inherit; }
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--mute);
+  align-items: center;
+}
+/* cadeado discreto: leva ao painel do administrador */
+.ftr__lock {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px;
+  margin-block: -10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  color: var(--bone-dim);
+  opacity: .85;
+  transition: opacity .25s, color .25s, border-color .25s, background .25s;
+}
+.ftr__lock svg { width: 24px; height: 24px; }
+.ftr__lock:hover, .ftr__lock:focus-visible { opacity: 1; color: var(--amber); border-color: var(--amber); }
+.ftr__lock:active { background: rgba(227, 139, 58, .12); }
+/* celular: botão ainda maior, fácil de acertar com o polegar */
+@media (max-width: 900px) {
+  .ftr__lock { width: 60px; height: 60px; margin-block: 4px 0; }
+  .ftr__lock svg { width: 28px; height: 28px; }
 }
 
 /* ---------- Botão fixo (celular) ---------- */

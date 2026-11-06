@@ -1,3 +1,8 @@
 # Não enviar para a Vercel: originais pesados das fotos (o site usa as versões leves)
 assets/fotos/local
 assets/fotos/banner
+# Nunca enviar: senha local, dados locais e ferramentas de desenvolvimento
+.env
+.env.*
+.data
+scripts

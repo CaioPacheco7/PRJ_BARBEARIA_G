@@ -21,6 +21,45 @@
   document.querySelectorAll("[data-years]").forEach((el) => (el.textContent = now - FOUNDED));
   document.querySelectorAll("[data-year]").forEach((el) => (el.textContent = now));
 
+  /* Preços e horários editados no painel (/admin/): o HTML já traz os valores de partida,
+     e aqui eles são trocados pelos salvos. Se a busca falhar, ficam os valores do HTML. */
+  const fmtPreco = (n) => (Number.isInteger(n) ? String(n) : n.toFixed(2).replace(".", ","));
+  const applyConfig = (cfg) => {
+    if (!cfg || typeof cfg !== "object") return;
+    if (cfg.prices) {
+      document.querySelectorAll(".menu .row").forEach((row) => {
+        const id = row.querySelector(".row__n")?.textContent.trim();
+        const price = cfg.prices[id];
+        const cell = row.querySelector(".row__price");
+        if (!cell || typeof price !== "number") return;
+        const small = document.createElement("small");
+        small.textContent = "R$";
+        cell.replaceChildren(small, document.createTextNode(fmtPreco(price)));
+      });
+    }
+    const lists = [
+      ["#horarios .hours__row:not(.hours__row--fri) .slots", cfg.hours?.weekdays],
+      ["#horarios .hours__row--fri .slots", cfg.hours?.friday],
+    ];
+    for (const [sel, times] of lists) {
+      const ul = document.querySelector(sel);
+      if (!ul || !Array.isArray(times) || !times.length) continue;
+      ul.replaceChildren(
+        ...times.map((t, i) => {
+          const li = document.createElement("li");
+          li.textContent = t;
+          li.className = "reveal is-in"; // já visível: foi criado depois da animação de entrada
+          li.style.setProperty("--d", `${Math.min(i * 0.045, 0.6).toFixed(2)}s`);
+          return li;
+        })
+      );
+    }
+  };
+  fetch("/api/config", { cache: "no-cache" })
+    .then((r) => (r.ok ? r.json() : null))
+    .then(applyConfig)
+    .catch(() => { /* sem conexão ou site aberto como arquivo: segue com os valores do HTML */ });
+
   /* Cabeçalho e botão fixo do celular */
   const header = document.querySelector(".hdr");
   const dock = document.querySelector(".dock");
